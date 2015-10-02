@@ -27,6 +27,11 @@ module Kanai {
             WeaponNonSeasonalCubedCount: KnockoutComputed<number>;
             JewelryNonSeasonalCubedCount: KnockoutComputed<number>;
 
+            //both
+            bothProgressBar: KnockoutObservable<boolean>;
+            ArmorBothCubedCount: KnockoutComputed<number>;
+            WeaponBothCubedCount: KnockoutComputed<number>;
+            JewelryBothCubedCount: KnockoutComputed<number>;
             ArmorStashedCount: KnockoutComputed<number>;
             WeaponStashedCount: KnockoutComputed<number>;
             JewelryStashedCount: KnockoutComputed<number>;
@@ -51,6 +56,7 @@ module Kanai {
                 this.hideNonSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
+                this.bothProgressBar = ko.observable(false).extend({ notify: 'always' });
                 this.AllWeapons = new Array<Equipment>();
                 this.AllJewelry = new Array<Equipment>();
                 this.AllArmor = new Array<Equipment>();
@@ -137,7 +143,7 @@ module Kanai {
                             self.Jewelry = ko.observableArray<KnockoutObservable<Equipment>>();
                         }
                     }
-                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar"]}, self);                   
+                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar", "bothProgressBar"]}, self);                   
                     this.checkConsistency();
                     this.saveToLocalStorage();
                     $.each(self.Armor(), function (i, elem: Equipment) {
@@ -252,6 +258,27 @@ module Kanai {
                         var elem = ko.unwrap(item);
                         return elem.isStashed() && !(elem.isCubedNonSeason() || elem.isCubedSeason());
                     }).length;
+                });
+
+                this.ArmorBothCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Armor(), (item: Equipment) => {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    });
+                });
+
+                this.WeaponBothCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Weapons(), (item: Equipment) => {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    });
+                });
+
+                this.JewelryBothCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Jewelry(), (item: Equipment) => {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    });
                 });
 
                 this.StashedCount = ko.computed(() => {

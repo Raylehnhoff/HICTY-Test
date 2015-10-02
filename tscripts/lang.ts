@@ -7,6 +7,7 @@
             default:
                 return "<strong>Please read:</strong> This site makes use of <a href='http://www.html5rocks.com/en/features/storage'>HTML5 localstorage</a> to store your information. This information is never sent to a server, and will only persist on the device that you set this up on.";
             case "de-DE":
+            case "de":
                 return "<strong>Bitte lesen:</strong> Diese Seite benutzt <a href='http://www.html5rocks.com/en/features/storage'>HTML5 localstorage</a> um ihre Informationen zu speichern. Diese Informationen werden niemals an einen Server gesendet und verweilen nur auf dem Gerät, dass Sie benutzen.";
         }
     },
@@ -16,6 +17,7 @@
             default:
                 return "If you notice a problem with this site, please reach out to <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> on reddit";
             case "de-DE":
+            case "de":
                 return "Falls Ihnen Probleme mit der Seite auffallen, wenden Sie sich bitte an <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> auf reddit.";
         }
     },
@@ -25,6 +27,7 @@
             default:
                 return "Armor";
             case "de-DE":
+            case "de":
                 return "Rüstung";
         }
     },
@@ -34,6 +37,7 @@
             default:
                 return "Weapon";
             case "de-DE":
+            case "de":
                 return "Waffe";
         }
     },
@@ -43,6 +47,7 @@
             default:
                 return "Weapons";
             case "de-DE":
+            case "de":
                 return "Waffen";
         }
     },
@@ -52,6 +57,7 @@
             default:
                 return "Jewelry";
             case "de-DE":
+            case "de":
                 return "Schmuck";
         }
     },
@@ -61,6 +67,7 @@
             default:
                 return "Stashed Items";
             case "de-DE":
+            case "de":
                 return "Gelagerte Items";
         }
     },
@@ -84,6 +91,7 @@
             default:
                 return "Settings";
             case "de-DE":
+            case "de":
                 return "Einstellungen";
         }
     },
@@ -93,6 +101,7 @@
             default:
                 return "Configure";
             case "de-DE":
+            case "de":
                 return "Konfiguration";
         }
     },
@@ -102,6 +111,7 @@
             default:
                 return "Seasonal Settings:";
             case "de-DE":
+            case "de":
                 return "Saisonale Einstellungen";
         }
     },
@@ -111,6 +121,7 @@
             default:
                 return "Non-Seasonal Settings:";
             case "de-DE":
+            case "de":
                 return "Nicht-Saisonale Einstellungen";
         }
     },
@@ -120,6 +131,7 @@
             default:
                 return "Hide Cubed";
             case "de-DE":
+            case "de":
                 return "Verstecke Würfel";
         }
     },
@@ -129,6 +141,7 @@
             default:
                 return "Show Progress Bar";
             case "de-DE":
+            case "de":
                 return "Zeige Fortschrittsbalken";
         }
     },
@@ -138,6 +151,7 @@
             default:
                 return "Export";
             case "de-DE":
+            case "de":
                 return "Exportieren";
         }
     },
@@ -147,6 +161,7 @@
             default:
                 return "The below will allow you to copy/paste your data into the import field.";
             case "de-DE":
+            case "de":
                 return "Unten kannst du deine Daten in das Feld hineinkopieren und importieren.";
         }
     },
@@ -156,6 +171,7 @@
             default:
                 return "Import";
             case "de-DE":
+            case "de":
                 return "Importieren";
         }
     },
@@ -165,6 +181,7 @@
             default:
                 return "Importing will override ALL of your current selections. Do so with caution.";
             case "de-DE":
+            case "de":
                 return "Eine Importierung wird ALLE deine bisherigen Daten überschreiben. Sei Vorsichtig.";
         }
     },
@@ -174,6 +191,7 @@
             default:
                 return "Importing values will override all of your current selections. Are you sure you want to do this?";
             case "de-DE":
+            case "de":
                 return "Importierung der Werte wird deine Daten überschreiben. Bist du sicher, dass du das machen willst?";
         }
     },
@@ -183,6 +201,7 @@
             default:
                 return "Refresh from Site";
             case "de-DE":
+            case "de":
                 return "Aktualisierung";
         }
     },
@@ -192,6 +211,7 @@
             default:
                 return "This option will remove all data in local storage (including your selections) and refresh the grid. Are you sure you want to do this?";
             case "de-DE":
+            case "de":
                 return "Diese Option wird deinen lokalen Speicher (inklusive deiner Auswahl)entfernen und die Tabelle zurücksetzen. Bist du sicher, dass du das machen willst?";
         }
     },
@@ -201,6 +221,7 @@
             default:
                 return "Seasonal";
             case "de-DE":
+            case "de":
                 return "Saisonal";
         }
     },
@@ -217,6 +238,7 @@
             default:
                 return "Non-Seasonal";
             case "de-DE":
+            case "de":
                 return "Nicht-Saisonal";
         }
     },
@@ -226,6 +248,7 @@
             default:
                 return "Name";
             case "de-DE":
+            case "de":
                 return "Name";
         }
     },
@@ -235,6 +258,7 @@
             default:
                 return "Cubed - Seasonal";
             case "de-DE":
+            case "de":
                 return "Würfel - Saisonal";
         }
     },
@@ -244,6 +268,7 @@
             default:
                 return "Hide Seasonal Checkboxes";
             case "de-DE":
+            case "de":
                 return "Verstecke Saisonale Kontrollkästchen";
         }
     },
@@ -253,6 +278,7 @@
             default:
                 return "Hide Non-Seasonal Checkboxes";
             case "de-DE":
+            case "de":
                 return "Verstecke Nicht-Saisonale Kontrollkästchen";
         }
     },
@@ -262,6 +288,7 @@
             default:
                 return "Cubed - Non-Seasonal";
             case "de-DE":
+            case "de":
                 return "Würfel - Nicht-Saisonal";
         }
     },
@@ -271,7 +298,22 @@
             default:
                 return "Stashed";
             case "de-DE":
+            case "de":
                 return "Gelagert";
+        }
+    },
+    "bothSettingsHeader": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Both";
+        }
+    },
+    "showBothProgressBar": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Show progress bar for both";
         }
     },
     "affix": function () {
@@ -280,6 +322,7 @@
             default:
                 return "Affix";
             case "de-DE":
+            case "de":
                 return "Affix";
         }
     },
@@ -291,6 +334,7 @@
                 default:
                     return item;
                 case "de-DE":
+                case "de":
                     {
                         switch (ko.unwrap(_item.itemName)) {
                             case "Sanguinary Vambracers":
@@ -1257,6 +1301,7 @@
                     break;
                 }
             case "de-DE":
+            case "de":
                 {
                     target.push(ko.observable(new Kanai.Equipment("Blutrünstige Unterarmschienen", "Wenn Ihr getroffen werdet, besteht eine Chance, dass Ihr Gegnern in der Nähe 1.000% Eures Dornenschadens zufügt")));
                     target.push(ko.observable(new Kanai.Equipment("Wickeltuch des Seelenernters", "Heilkugeln stellen 30% Eurer Primärressource wieder her")));
@@ -1518,6 +1563,7 @@
                 break;
             }
             case "de-DE":
+            case "de":
                 {
                     target.push(ko.observable(new Kanai.Equipment('Genzaniku', 'Ihr beschwört manchmal einen geisterhaften Champion der Gefallenen, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Hacken', '100% Eures Dornenschadens wird auf jeden Angriff angewandt')));
@@ -1708,6 +1754,7 @@
                 target.push(ko.observable(new Kanai.Equipment("Wyrdward", "Lightning damage has a 35% chance to Stun for 1.5 seconds.")));
                 break;
             case "de-DE":
+            case "de":
                 {
                     target.push(ko.observable(new Kanai.Equipment('Kamee von Gräfin Julia', 'Ignoriert sämtlichen eintreffenden Arkanschaden und heilt Euch um 20–25% der ignorierten Menge')));
                     target.push(ko.observable(new Kanai.Equipment('Energiefalle von Dovu', 'Erhöht die Dauer von Betäubungseffekten um 25%')));
