@@ -1,6 +1,46 @@
 var lang = {
     //culture: ko.observable("de-DE"),
     culture: ko.observable(navigator.userLanguage || navigator.language),
+    "bothSettingsHeader": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Both";
+            case "de-DE":
+            case "de":
+                return "";
+        }
+    },
+    "showBothProgressBar": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Show progress bar for both";
+            case "de-DE":
+            case "de":
+                return "";
+        }
+    },
+    "bothProgressBarLabel": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Both";
+            case "de-DE":
+            case "de":
+                return "";
+        }
+    },
+    "searchPlaceholder": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Search";
+            case "de-DE":
+            case "de":
+                return "";
+        }
+    },
     "pleaseRead": function () {
         switch (this.culture()) {
             case "en-US":
@@ -300,20 +340,6 @@ var lang = {
             case "de-DE":
             case "de":
                 return "Gelagert";
-        }
-    },
-    "bothSettingsHeader": function () {
-        switch (this.culture()) {
-            case "en-US":
-            default:
-                return "Both";
-        }
-    },
-    "showBothProgressBar": function () {
-        switch (this.culture()) {
-            case "en-US":
-            default:
-                return "Show progress bar for both";
         }
     },
     "affix": function () {
