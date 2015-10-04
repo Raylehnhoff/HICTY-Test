@@ -92,6 +92,8 @@ var Kanai;
                 this.Weapons([]);
                 this.Jewelry([]);
                 this.Armor([]);
+                this.selectedLanguage('default');
+                this.hasSeenLanguageAlert(false);
             };
             Site.prototype.init = function () {
                 var _this = this;

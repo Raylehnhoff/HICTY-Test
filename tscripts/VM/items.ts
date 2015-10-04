@@ -138,6 +138,8 @@ module Kanai {
                 this.Weapons([]);
                 this.Jewelry([]);
                 this.Armor([]);
+                this.selectedLanguage('default');
+                this.hasSeenLanguageAlert(false);
             }
             init() {
                 var self = this;
