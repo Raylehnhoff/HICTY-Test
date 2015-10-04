@@ -335,6 +335,7 @@ var Kanai;
             Site.prototype.DontTranslate = function () {
                 this.selectedLanguage('default');
                 this.hasSeenLanguageAlert(true);
+                this.init();
             };
             Site.prototype.fillExport = function () {
                 var self = this;
@@ -397,6 +398,7 @@ var Kanai;
                         convert = lang.englishToCulture(searchArray()[i]);
                     }
                     searchArray()[i].itemName(convert.itemName());
+                    searchArray()[i].affix(convert.affix());
                 }
                 for (var i = 0; i < masterList.length; i++) {
                     var searchName = masterList[i]().itemName();

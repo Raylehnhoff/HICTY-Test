@@ -405,6 +405,7 @@ module Kanai {
             DontTranslate() {
                 this.selectedLanguage('default');
                 this.hasSeenLanguageAlert(true);
+                this.init();
             }
 
             fillExport() {
@@ -470,6 +471,7 @@ module Kanai {
                         convert = lang.englishToCulture(searchArray()[i]);
                     }
                     searchArray()[i].itemName(convert.itemName());
+                    searchArray()[i].affix(convert.affix());
                 }
 
                 for (var i = 0; i < masterList.length; i++) {
