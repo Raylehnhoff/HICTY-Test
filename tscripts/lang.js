@@ -1,7 +1,7 @@
 var lang = {
-    //culture: ko.observable("de"),
+    culture: ko.observable("de"),
     selectedLang: ko.observable(''),
-    culture: ko.observable(navigator.userLanguage || navigator.language),
+    //culture: ko.observable(navigator.userLanguage || navigator.language),
     "bothSettingsHeader": function () {
         switch (this.selectedLang()) {
             case "en-US":
@@ -392,10 +392,9 @@ var lang = {
     cultureToEnglish: function (item) {
         var _item = ko.unwrap(item);
         try {
-            switch (this.selectedLang()) {
+            switch (this.culture()) {
                 case "de":
                 case "de-DE":
-                case "":
                     {
                         switch (ko.unwrap(_item.itemName)) {
                             //Armor
