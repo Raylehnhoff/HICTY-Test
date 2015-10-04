@@ -2246,6 +2246,7 @@
                     target.push(ko.observable(new Kanai.Equipment('Die gröbsten Stiefel', "'Mystischer Verbündeter' beschwört zwei mystische Verbündete, die an Eurer Seite kämpfen")));
                     target.push(ko.observable(new Kanai.Equipment("St. Archews Maß", "Der erste Treffer, den Ihr durch eine Gruppe Elitegegner erleidet, verleiht Euch 10 Sek. lang einen Schild, der Schaden in Höhe von 1150% Eures maximalen Lebens absorbiert.")));
                     target.push(ko.observable(new Kanai.Equipment('Schreckenseisen', "'Aufstampfen' erzeugt einen 'Erdrutsch'")));
+                    target.push(ko.observable(new Kanai.Equipment('Eiskletterer', 'Ihr erhaltet Immunität gegen Einfrierungs- und Bewegungsunfähigkeitseffekte')));
                     break;
 
                 }
@@ -2416,7 +2417,6 @@
                     target.push(ko.observable(new Kanai.Equipment('Odyns Sohn', 'Chance von 40%, einen Kettenblitz auf Eure Gegner zu wirken, wenn Ihr sie trefft')));
                     target.push(ko.observable(new Kanai.Equipment('Solanium', 'Kritische Treffer haben eine Chance von 3-4%, eine Heilkugel hervorzurufen')));
                     target.push(ko.observable(new Kanai.Equipment('Das Gesetz des Arreat', "'Waffenwurf' erzeugt mit zunehmender Entfernung zum getroffenen Gegner zusätzlich bis zu 20 mehr Wut. Der Maximalwert wird ab 20 Meter erreicht.")));
-                    target.push(ko.observable(new Kanai.Equipment('Solanium', 'Kritische Treffer haben eine Chance von 3-4%, eine Heilkugel hervorzurufen')));
                     target.push(ko.observable(new Kanai.Equipment('Blauzorn', 'Untote und dämonische Gegner innerhalb von 25 Metern erleiden jede Sekunde 650% Waffenschaden als Heiligschaden und werden manchmal in die Luft geschleudert.')));
                     target.push(ko.observable(new Kanai.Equipment('Donnerkeil', 'Jeglicher Blitzschaden hat jetzt eine Chance, Gegner in Blitzableiter zu verwandeln, die Gegnern in der Nähe 6 Sekunden lang jede Sekunde 555% Waffenschaden als Blitzschaden zufügen.')));
                     target.push(ko.observable(new Kanai.Equipment("In-geom", "Die Abklingzeiten Eurer Fertigkeiten werden jedes Mal 15 Sek. lang um 10 Sek. reduziert, wenn Ihr eine Gruppe von Elitegegnern tötet")));
@@ -2445,7 +2445,6 @@
                     target.push(ko.observable(new Kanai.Equipment('Geschändetes Erbe', "Erhöht den Schaden von 'Spalten' um bis zu 400%, basierend auf dem prozentualen Anteil der aktuell verbrauchten Wut.")));
                     target.push(ko.observable(new Kanai.Equipment('Kassars Vergeltung', "Das Wirken von 'Gerechtigkeit' erhöht 2 Sek. lang Eure Bewegungsgeschwindigkeit um 20%")));
                     target.push(ko.observable(new Kanai.Equipment('Windreiter', "Verdoppelt die Dauer von 'Kavallerie'")));
-                    target.push(ko.observable(new Kanai.Equipment('Geschändetes Erbe', "Erhöht den Schaden von 'Spalten' um bis zu 400%, basierend auf dem prozentualen Anteil der aktuell verbrauchten Wut.")));
                     target.push(ko.observable(new Kanai.Equipment('Fjordspalter', 'Beim Angriff seid Ihr von einer unterkühlenden Aura umgeben.')));
                     target.push(ko.observable(new Kanai.Equipment("Unbarmherzigkeit", "'Hammer der Urahnen' hat eine Chance von 30%, für 20 Sek. einen Urahnen zu beschwören")));
                     target.push(ko.observable(new Kanai.Equipment('Ausbruch des Zorns', 'Das Töten von Gegnern und Zerstören von Objekten hat eine Chance, Euch 20% Eurer maximalen Primärressource zu gewähren')));
