@@ -101,11 +101,10 @@ module Kanai {
                         $(".sticky-table").removeClass('sticky-table');
                     }
                 });
-                this.selectedLanguage = ko.observable('');
+                this.selectedLanguage = ko.observable('default');
                 this.selectedLanguage.subscribe((newLang) => {
                     lang.selectedLang(newLang);
                 });
-                this.selectedLanguage('');
                 this.hasSeenLanguageAlert = ko.observable<boolean>(false);
 
                 this.showLanguageAlert = ko.computed(() => {
@@ -117,6 +116,7 @@ module Kanai {
                                 return false;
                             }
                             return true;
+                        case "default":
                         default:
                             return false;
 
@@ -381,9 +381,9 @@ module Kanai {
                 this.seasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.hasSeenLanguageAlert.subscribe(() => { self.saveToLocalStorage(); });
-                if (!this.selectedLanguage() && !this.showLanguageAlert()) {
-                    if (this.hasSeenLanguageAlert()) {
-                        this.selectedLanguage(lang.culture());
+                if (!self.selectedLanguage() && !self.showLanguageAlert()) {
+                    if (self.hasSeenLanguageAlert()) {
+                        self.selectedLanguage(lang.culture());
                     }
                 }
             }
@@ -429,7 +429,9 @@ module Kanai {
                         "WeaponStashedCount",
                         "ArmorBothCubedCount",
                         "WeaponBothCubedCount",
-                        "JewelryBothCubedCount"]
+                        "JewelryBothCubedCount",
+                        "showLanguageAlert"
+                    ]
                 }));
             }
 
@@ -528,7 +530,6 @@ module Kanai {
                         self.Armor.remove(item);
                     }
                 }
-
 
                 self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
                 self.saveToLocalStorage();

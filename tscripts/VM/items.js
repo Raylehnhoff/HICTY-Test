@@ -60,11 +60,10 @@ var Kanai;
                         $(".sticky-table").removeClass('sticky-table');
                     }
                 });
-                this.selectedLanguage = ko.observable('');
+                this.selectedLanguage = ko.observable('default');
                 this.selectedLanguage.subscribe(function (newLang) {
                     lang.selectedLang(newLang);
                 });
-                this.selectedLanguage('');
                 this.hasSeenLanguageAlert = ko.observable(false);
                 this.showLanguageAlert = ko.computed(function () {
                     switch (lang.culture()) {
@@ -74,6 +73,7 @@ var Kanai;
                                 return false;
                             }
                             return true;
+                        case "default":
                         default:
                             return false;
                     }
@@ -314,9 +314,9 @@ var Kanai;
                 this.seasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.hasSeenLanguageAlert.subscribe(function () { self.saveToLocalStorage(); });
-                if (!this.selectedLanguage() && !this.showLanguageAlert()) {
-                    if (this.hasSeenLanguageAlert()) {
-                        this.selectedLanguage(lang.culture());
+                if (!self.selectedLanguage() && !self.showLanguageAlert()) {
+                    if (self.hasSeenLanguageAlert()) {
+                        self.selectedLanguage(lang.culture());
                     }
                 }
             };
@@ -357,7 +357,9 @@ var Kanai;
                         "WeaponStashedCount",
                         "ArmorBothCubedCount",
                         "WeaponBothCubedCount",
-                        "JewelryBothCubedCount"]
+                        "JewelryBothCubedCount",
+                        "showLanguageAlert"
+                    ]
                 }));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
