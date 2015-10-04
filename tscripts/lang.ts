@@ -1,7 +1,7 @@
 ﻿var lang = {
-    culture: ko.observable("de"),
+    //culture: ko.observable("de"),
     selectedLang: ko.observable(''),
-    //culture: ko.observable(navigator.userLanguage || navigator.language),
+    culture: ko.observable(navigator.userLanguage || navigator.language),
     "bothSettingsHeader": function () {
         switch (this.selectedLang()) {
             case "en-US":
