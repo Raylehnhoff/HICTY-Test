@@ -523,14 +523,7 @@ module Kanai {
 
                 self._checkConsistencyAndSort(self.Armor, self.AllArmor);
                 self._checkConsistencyAndSort(self.Weapons, self.AllWeapons);
-                //This item didn't make it live in 2.3
-                var item = ko.utils.arrayFirst(self.Weapons(), function (item: any) {
-                    return item.itemName() == "Deadly Rebirth";
-                });
-                if (item) {
-                    self.Weapons.remove(item);
-                }
-
+                
                 //This item accidently made it to the US item list
                 if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
                     item = ko.utils.arrayFirst(self.Armor(), function (item: any) {

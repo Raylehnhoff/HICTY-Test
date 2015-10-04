@@ -616,6 +616,9 @@
                                 return new Kanai.Equipment("Spaulders of Zakara", "Your items become indestructible.")
 
                             //Weapons
+                            case "Tödliche Wiedergeburt":
+                                return new Kanai.Equipment("Deadly Rebirth", "Grasp of the Dead gains the effect of the Rain of Corpses rune.");
+
                             case "Genzaniku":
                                 return new Kanai.Equipment("Genzaniku", "Chance to summon a ghostly Fallen Champion when attacking.");
 
@@ -1175,6 +1178,9 @@
                         switch (ko.unwrap(_item.itemName)) {
                             case "Sanguinary Vambracers":
                                 return new Kanai.Equipment("Blutrünstige Unterarmschienen", "Wenn Ihr getroffen werdet, besteht eine Chance, dass Ihr Gegnern in der Nähe 1.000% Eures Dornenschadens zufügt");
+
+                            case "Deadly Rebirth":
+                                return new Kanai.Equipment('Tödliche Wiedergeburt', "'Umklammerung der Toten' erhält den Effekt der Rune 'Leichenregen'")
 
                             case "Reaper's Wraps":
                                 return new Kanai.Equipment("Wickeltuch des Seelenernters", "Heilkugeln stellen 30% Eurer Primärressource wieder her");
@@ -2257,6 +2263,7 @@
             case "en-US":
             case "default":
             default: {
+                target.push(ko.observable(new Kanai.Equipment("Deadly Rebirth", "Grasp of the Dead gains the effect of the Rain of Corpses rune.")));
                 target.push(ko.observable(new Kanai.Equipment("Genzaniku", "Chance to summon a ghostly Fallen Champion when attacking.")));
                 target.push(ko.observable(new Kanai.Equipment("Hack", "100% of your Thorns damage is applied on every attack.")));
                 target.push(ko.observable(new Kanai.Equipment("Sky Splitter", "20% chance to Smite enemies for 750% weapon damage as Lightning when you hit them.")));
@@ -2404,6 +2411,7 @@
             case "de-DE":
             case "de":
                 {
+                    target.push(ko.observable(new Kanai.Equipment('Tödliche Wiedergeburt', "'Umklammerung der Toten' erhält den Effekt der Rune 'Leichenregen'")));
                     target.push(ko.observable(new Kanai.Equipment('Genzaniku', 'Ihr beschwört manchmal einen geisterhaften Champion der Gefallenen, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Hacken', '100% Eures Dornenschadens wird auf jeden Angriff angewandt')));
                     target.push(ko.observable(new Kanai.Equipment('Himmelsspalter', "Chance von 20%, 'Himmlisches Schmettern' auf getroffene Gegner zu wirken und 750% Waffenschaden als Blitzschaden zu verursachen")));
