@@ -6,6 +6,17 @@
 /// <reference path="../includes.d.ts"/>
 var Kanai;
 (function (Kanai) {
+    var Models;
+    (function (Models) {
+        var DropdownListOption = (function () {
+            function DropdownListOption(key, value) {
+                this.key = key;
+                this.value = value;
+            }
+            return DropdownListOption;
+        })();
+        Models.DropdownListOption = DropdownListOption;
+    })(Models = Kanai.Models || (Kanai.Models = {}));
     var VM;
     (function (VM) {
         var Site = (function () {
@@ -49,11 +60,30 @@ var Kanai;
                         $(".sticky-table").removeClass('sticky-table');
                     }
                 });
+                this.selectedLanguage = ko.observable('');
+                this.selectedLanguage.subscribe(function (newLang) {
+                    lang.selectedLang(newLang);
+                });
+                this.selectedLanguage('');
+                this.hasSeenLanguageAlert = ko.observable(false);
+                this.showLanguageAlert = ko.computed(function () {
+                    switch (lang.culture()) {
+                        case "de-DE":
+                        case "de":
+                            if (self.hasSeenLanguageAlert()) {
+                                return false;
+                            }
+                            return true;
+                        default:
+                            return false;
+                    }
+                });
             }
             Site.prototype.searchArray = function (array, searchText, response) {
                 var res = ko.utils.arrayFilter(array(), function (item) {
                     var lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
-                    return lowerItemName.indexOf(searchText) !== -1;
+                    var lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
+                    return (lowerItemName.indexOf(searchText) !== -1) || (lowerAffix.indexOf(searchText) !== -1);
                 });
                 ko.utils.arrayPushAll(response(), res);
                 return res.length > 0;
@@ -134,7 +164,24 @@ var Kanai;
                             self.Jewelry = ko.observableArray();
                         }
                     }
-                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar", "bothProgressBar"] }, self);
+                    ko.mapping.fromJS(vm, {
+                        "include": ["hideCubed",
+                            "hideCubedNonSeason",
+                            "nonSeasonalProgressBar",
+                            "hideNonSeasonalCheckboxes",
+                            "hideSeasonalCheckboxes",
+                            "seasonalProgressBar",
+                            "bothProgressBar",
+                            "hasSeenLanguageAlert",
+                            "selectedLanguage"
+                        ],
+                        "selectedLanguage": {
+                            update: function (options) {
+                                lang.selectedLang(options.data);
+                                return options.data;
+                            }
+                        }
+                    }, self);
                     this.checkConsistency();
                     this.saveToLocalStorage();
                     $.each(self.Armor(), function (i, elem) {
@@ -170,7 +217,7 @@ var Kanai;
                             self.saveToLocalStorage();
                         });
                     });
-                    self.saveToLocalStorage();
+                    this.saveToLocalStorage();
                 }
                 this.ArmorSeasonalCubedCount = ko.computed(function () {
                     if (self.Armor().length > 0) {
@@ -261,9 +308,27 @@ var Kanai;
                 });
                 this.hideCubed.subscribe(function () { self.saveToLocalStorage(); });
                 this.hideCubedNonSeason.subscribe(function () { self.saveToLocalStorage(); });
+                this.hideNonSeasonalCheckboxes.subscribe(function () { self.saveToLocalStorage(); });
+                this.hideSeasonalCheckboxes.subscribe(function () { self.saveToLocalStorage(); });
                 this.nonSeasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(function () { self.saveToLocalStorage(); });
+                this.hasSeenLanguageAlert.subscribe(function () { self.saveToLocalStorage(); });
+                if (!this.selectedLanguage() && !this.showLanguageAlert()) {
+                    if (this.hasSeenLanguageAlert()) {
+                        this.selectedLanguage(lang.culture());
+                    }
+                }
+            };
+            Site.prototype.Translate = function () {
+                this.hasSeenLanguageAlert(true);
+                this.selectedLanguage(lang.culture());
+                this.saveToLocalStorage();
+                this.init();
+            };
+            Site.prototype.DontTranslate = function () {
+                this.selectedLanguage('default');
+                this.hasSeenLanguageAlert(true);
             };
             Site.prototype.fillExport = function () {
                 var self = this;
@@ -274,7 +339,26 @@ var Kanai;
                 localStorage[self.localStorageString] = null;
                 delete this.Jewelery;
                 localStorage.setItem(self.localStorageString, ko.mapping.toJSON(self, {
-                    "ignore": ["AllWeapons", "AllJewelry", "FilteredArray", "Search", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount", "ArmorBothCubedCount", "WeaponBothCubedCount", "JewelryBothCubedCount"] }));
+                    "ignore": ["AllWeapons",
+                        "AllJewelry",
+                        "FilteredArray",
+                        "Search",
+                        "Export",
+                        "AllArmor",
+                        "ArmorNonSeasonalCubedCount",
+                        "ArmorSeasonalCubedCount",
+                        "ArmorStashedCount",
+                        "JewelryNonSeasonalCubedCount",
+                        "JewelrySeasonalCubedCount",
+                        "JewelryStashedCount",
+                        "StashedCount",
+                        "WeaponNonSeasonalCubedCount",
+                        "WeaponSeasonalCubedCount",
+                        "WeaponStashedCount",
+                        "ArmorBothCubedCount",
+                        "WeaponBothCubedCount",
+                        "JewelryBothCubedCount"]
+                }));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
             Site.prototype.spellcheckCorrect = function (searchName) {
@@ -296,8 +380,19 @@ var Kanai;
             };
             Site.prototype._checkConsistencyAndSort = function (searchArray, masterList) {
                 var self = this;
+                for (var i = 0; i < searchArray().length; i++) {
+                    var convert;
+                    if ((lang.culture() == 'de' || lang.culture() == 'de-DE') && !lang.selectedLang()) {
+                        convert = lang.cultureToEnglish(searchArray()[i]);
+                    }
+                    else {
+                        convert = lang.englishToCulture(searchArray()[i]);
+                    }
+                    searchArray()[i].itemName(convert.itemName());
+                }
                 for (var i = 0; i < masterList.length; i++) {
                     var searchName = masterList[i]().itemName();
+                    // this will go through both arrays and match items up
                     var find = ko.utils.arrayFirst(searchArray(), function (item) {
                         var spellCheck = self.spellcheckCorrect(item.itemName());
                         if (spellCheck && spellCheck.oldName == item.itemName()) {
@@ -306,26 +401,15 @@ var Kanai;
                         return item.itemName() === searchName;
                     });
                     if (find == null) {
-                        var find2 = ko.utils.arrayFirst(searchArray(), function (item) {
-                            var convert = lang.englishToCulture(item);
-                            return convert.itemName() === searchName;
-                        });
-                        if (find2 == null) {
-                            searchArray.push(ko.mapping.fromJS(masterList[i])());
-                        }
-                        else {
-                            var convert = lang.englishToCulture(find2);
-                            find2.itemName(convert.itemName());
-                            find2.affix = convert.affix;
-                        }
+                        searchArray.push(ko.mapping.fromJS(masterList[i])());
                     }
                     else {
-                        find.affix = masterList[i]().affix;
+                        find.affix(masterList[i]().affix());
                     }
-                    searchArray.sort(function (left, right) {
-                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                    });
                 }
+                searchArray.sort(function (left, right) {
+                    return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
+                });
             };
             Site.prototype.importValues = function () {
                 var self = this;
@@ -335,6 +419,7 @@ var Kanai;
                         self.Jewelry(importData.Jewelry());
                         self.Armor(importData.Armor());
                         self.Weapons(importData.Weapons());
+                        self.checkConsistency();
                         self.saveToLocalStorage();
                     }
                 }
@@ -355,6 +440,15 @@ var Kanai;
                 });
                 if (item) {
                     self.Weapons.remove(item);
+                }
+                //This item accidently made it to the US item list
+                if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
+                    item = ko.utils.arrayFirst(self.Armor(), function (item) {
+                        return item.itemName() == "Eiskletterer";
+                    });
+                    if (item) {
+                        self.Armor.remove(item);
+                    }
                 }
                 self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
                 self.saveToLocalStorage();
