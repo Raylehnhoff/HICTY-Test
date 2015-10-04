@@ -8,7 +8,7 @@ module Kanai {
     export module Models {
         export class DropdownListOption {
             key: string;
-            value:string;
+            value: string;
             constructor(key: string, value: string) {
                 this.key = key;
                 this.value = value;
@@ -51,10 +51,10 @@ module Kanai {
             Export: KnockoutObservable<string>;
             Import: KnockoutObservable<string>;
 
-            AllWeapons: Equipment[];
-            AllJewelry: Equipment[];
-            AllJewelery: Equipment[];
-            AllArmor: Equipment[];
+            AllWeapons: KnockoutObservableArray<Equipment>;
+            AllJewelry: KnockoutObservableArray<Equipment>;
+            AllJewelery: KnockoutObservableArray<Equipment>;
+            AllArmor: KnockoutObservableArray<Equipment>;
 
             Search: KnockoutObservable<string>;
             FilteredArray: KnockoutObservableArray<KnockoutObservable<Equipment>>;
@@ -75,9 +75,9 @@ module Kanai {
                 this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
                 this.bothProgressBar = ko.observable(false).extend({ notify: 'always' });
-                this.AllWeapons = new Array<Equipment>();
-                this.AllJewelry = new Array<Equipment>();
-                this.AllArmor = new Array<Equipment>();
+                this.AllWeapons = ko.observableArray<Equipment>([]);
+                this.AllJewelry = ko.observableArray<Equipment>([]);
+                this.AllArmor = ko.observableArray<Equipment>([]);
                 this.Export = ko.observable<string>();
                 this.Import = ko.observable<string>();
                 this.Search = ko.observable<string>('').extend({ notify: 'always', rateLimit: 200 });
@@ -146,9 +146,15 @@ module Kanai {
                     this.loadWeapons(self.Weapons);
                     this.loadJewelry(self.Jewelry);
                     this.loadArmor(self.Armor);
-                    self.loadJewelry(self.AllJewelry);
-                    self.loadArmor(self.AllWeapons);
-                    self.loadWeapons(self.AllArmor);
+                    if (self.AllJewelry().length == 0) {
+                        self.loadJewelry(self.AllJewelry());
+                    }
+                    if (self.AllWeapons().length == 0) {
+                        self.loadArmor(self.AllWeapons());
+                    }
+                    if (self.AllArmor().length == 0) {
+                        self.loadWeapons(self.AllArmor());
+                    }
                     this.Weapons.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
@@ -504,12 +510,16 @@ module Kanai {
 
             checkConsistency() {
                 var self = this;
-                this.AllWeapons.length = 0;
-                this.AllJewelry.length = 0;
-                this.AllArmor.length = 0;
-                this.loadWeapons(this.AllWeapons);
-                this.loadJewelry(this.AllJewelry);
-                this.loadArmor(this.AllArmor);
+                if (this.AllWeapons().length == 0) {
+                    this.loadWeapons(this.AllWeapons);
+                }
+
+                if (this.AllJewelry().length == 0) {
+                    this.loadJewelry(this.AllJewelry);
+                }
+                if (this.AllArmor().length == 0) {
+                    this.loadArmor(this.AllArmor);
+                }
 
                 self._checkConsistencyAndSort(self.Armor, self.AllArmor);
                 self._checkConsistencyAndSort(self.Weapons, self.AllWeapons);
