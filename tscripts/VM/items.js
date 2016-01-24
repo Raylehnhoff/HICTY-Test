@@ -485,15 +485,9 @@ var Kanai;
             };
             Site.prototype.checkConsistency = function () {
                 var self = this;
-                if (this.AllWeapons().length == 0) {
-                    this.loadWeapons(this.AllWeapons);
-                }
-                if (this.AllJewelry().length == 0) {
-                    this.loadJewelry(this.AllJewelry);
-                }
-                if (this.AllArmor().length == 0) {
-                    this.loadArmor(this.AllArmor);
-                }
+                this.loadWeapons(this.AllWeapons);
+                this.loadJewelry(this.AllJewelry);
+                this.loadArmor(this.AllArmor);
                 self._checkConsistencyAndSort(self.Armor, self.AllArmor());
                 self._checkConsistencyAndSort(self.Weapons, self.AllWeapons());
                 //This item accidently made it to the US item list
