@@ -63,6 +63,7 @@ module Kanai {
             hasSeenLanguageAlert: KnockoutObservable<boolean>;
             showLanguageAlert: KnockoutObservable<boolean>;
             selectedLanguage: KnockoutObservable<string>;
+            hasSeenUpdateNotice: KnockoutObservable<boolean>;
             constructor() {
                 var self = this;
                 this.Weapons = ko.observableArray<KnockoutObservable<Equipment>>();
@@ -106,6 +107,7 @@ module Kanai {
                     lang.selectedLang(newLang);
                 });
                 this.hasSeenLanguageAlert = ko.observable<boolean>(false);
+                this.hasSeenUpdateNotice = ko.observable<boolean>(false);
 
                 this.showLanguageAlert = ko.computed(() => {
 
@@ -140,7 +142,13 @@ module Kanai {
                 this.Armor([]);
                 this.selectedLanguage('default');
                 this.hasSeenLanguageAlert(false);
+                this.hasSeenUpdateNotice(true);
             }
+
+            convertGermanItemsToEnglish() {
+
+            }
+
             init() {
                 var self = this;
                 var vm = JSON.parse(localStorage.getItem(self.localStorageString));
@@ -231,6 +239,7 @@ module Kanai {
                             "seasonalProgressBar",
                             "bothProgressBar",
                             "hasSeenLanguageAlert",
+                            "hasSeenUpdateNotice",
                             "selectedLanguage"
                         ],
                         "selectedLanguage": {
@@ -396,6 +405,42 @@ module Kanai {
                 }
             }
 
+            ConvertSeasonalToNon() {
+                for (var item in this.Armor()) {
+                    var thisItem = this.Armor()[item];
+                    if (thisItem.isCubedSeason()) {
+                        thisItem.isCubedNonSeason(true);
+                        thisItem.isCubedSeason(false);
+                    }
+
+                }
+                for (var item in this.Jewelry()) {
+                    var thisItem = this.Jewelry()[item];
+                    if (thisItem.isCubedSeason()) {
+                        thisItem.isCubedNonSeason(true);
+                        thisItem.isCubedSeason(false);
+                    }
+                }
+                for (var item in this.Weapons()) {
+                    var thisItem = this.Weapons()[item];
+                    if (thisItem.isCubedSeason()) {
+                        thisItem.isCubedNonSeason(true);
+                        thisItem.isCubedSeason(false);
+                    }
+                }
+            }
+
+            UpdateForNewPatch() {
+                this.hasSeenUpdateNotice(true);
+                this.ConvertSeasonalToNon();
+                this.saveToLocalStorage();
+            }
+
+            DontUpdateForNewPatch() {
+                this.hasSeenUpdateNotice(true);
+                this.saveToLocalStorage();
+            }
+
             Translate() {
                 this.hasSeenLanguageAlert(true);
                 this.selectedLanguage(lang.culture());
@@ -477,20 +522,32 @@ module Kanai {
                 }
 
                 for (var i = 0; i < masterList.length; i++) {
-                    var searchName = masterList[i]().itemName();
-                    // this will go through both arrays and match items up
-                    var find = ko.utils.arrayFirst(searchArray(), function (item: any) {
-                        var spellCheck = self.spellcheckCorrect(item.itemName());
-                        if (spellCheck && spellCheck.oldName == item.itemName()) {
-                            item.itemName(spellCheck.newName);
-                        }
-                        return item.itemName() === searchName;
-                    });
+                    if (masterList[i]) {
 
-                    if (find == null) {
-                        searchArray.push(ko.mapping.fromJS(masterList[i])());
-                    } else {
-                        find.affix(masterList[i]().affix());
+                        var searchName,
+                            item;
+                        if (typeof (masterList[i]) != 'object') {
+                            searchName = masterList[i]().itemName();
+                            item = masterList[i]();
+                        }
+                        else {
+                            searchName = masterList[i].itemName();
+                            item = masterList[i];
+                        }
+                        // this will go through both arrays and match items up
+                        var find = ko.utils.arrayFirst(searchArray(), function (item: any) {
+                            var spellCheck = self.spellcheckCorrect(item.itemName());
+                            if (spellCheck && spellCheck.oldName == item.itemName()) {
+                                item.itemName(spellCheck.newName);
+                            }
+                            return item.itemName() === searchName;
+                        });
+
+                        if (find == null) {
+                            searchArray.push(ko.mapping.fromJS(item));
+                        } else {
+                            find.affix(item.affix());
+                        }
                     }
                 }
                 searchArray.sort(function (left, right) {
@@ -525,8 +582,8 @@ module Kanai {
                     this.loadArmor(this.AllArmor);
                 }
 
-                self._checkConsistencyAndSort(self.Armor, self.AllArmor);
-                self._checkConsistencyAndSort(self.Weapons, self.AllWeapons);
+                self._checkConsistencyAndSort(self.Armor, self.AllArmor());
+                self._checkConsistencyAndSort(self.Weapons, self.AllWeapons());
                 
                 //This item accidently made it to the US item list
                 if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
@@ -538,7 +595,7 @@ module Kanai {
                     }
                 }
 
-                self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
+                self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry());
                 self.saveToLocalStorage();
 
             }
