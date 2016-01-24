@@ -479,6 +479,7 @@ var Kanai;
                         self.Armor(importData.Armor());
                         self.Weapons(importData.Weapons());
                         self.checkConsistency();
+                        self.hasSeenUpdateNotice(false);
                         self.saveToLocalStorage();
                     }
                 }
