@@ -111,10 +111,10 @@ var Kanai;
                         self.loadJewelry(self.AllJewelry());
                     }
                     if (self.AllWeapons().length == 0) {
-                        self.loadArmor(self.AllWeapons());
+                        self.loadWeapons(self.AllWeapons());
                     }
                     if (self.AllArmor().length == 0) {
-                        self.loadWeapons(self.AllArmor());
+                        self.loadArmor(self.AllArmor());
                     }
                     this.Weapons.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
