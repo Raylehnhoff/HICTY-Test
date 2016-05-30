@@ -14,7 +14,7 @@ var lang = {
         }
     },
     "updateNoticeHeader": function () {
-        return "With the update to 2.4, would you like to convert all of your seasonal items to non-seasonal? This action cannot be undone.";
+        return "With the update to 2.4.1, would you like to convert all of your seasonal items to non-seasonal? This action cannot be undone.";
     },
     "showBothProgressBar": function () {
         switch (this.selectedLang()) {
