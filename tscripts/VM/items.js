@@ -14,7 +14,7 @@ var Kanai;
                 this.value = value;
             }
             return DropdownListOption;
-        })();
+        }());
         Models.DropdownListOption = DropdownListOption;
     })(Models = Kanai.Models || (Kanai.Models = {}));
     var VM;
@@ -23,6 +23,7 @@ var Kanai;
             function Site() {
                 this.localStorageString = "kanai_cube";
                 var self = this;
+                this.CurrentPatchVersion = "2.4.1";
                 this.Weapons = ko.observableArray();
                 this.Jewelry = ko.observableArray();
                 this.Armor = ko.observableArray();
@@ -39,6 +40,7 @@ var Kanai;
                 this.Export = ko.observable();
                 this.Import = ko.observable();
                 this.Search = ko.observable('').extend({ notify: 'always', rateLimit: 200 });
+                this.UserPatchVersion = ko.observable('');
                 this.FilteredArray = ko.observableArray([]);
                 this.Search.subscribe(function (searchText) {
                     if (searchText && searchText.length >= 2) {
@@ -66,6 +68,11 @@ var Kanai;
                 });
                 this.hasSeenLanguageAlert = ko.observable(false);
                 this.hasSeenUpdateNotice = ko.observable(false);
+                this.hasSeenUpdateNotice.subscribe(function (newVal) {
+                    if (newVal === true) {
+                        self.UserPatchVersion(self.CurrentPatchVersion);
+                    }
+                });
                 this.showLanguageAlert = ko.computed(function () {
                     switch (lang.culture()) {
                         case "de-DE":
@@ -159,8 +166,20 @@ var Kanai;
                             self.saveToLocalStorage();
                         });
                     });
+                    self.UserPatchVersion = ko.observable(self.CurrentPatchVersion);
                 }
                 else {
+                    //This means they have a version of item data that pre-dates 2.4.1
+                    if (!vm.UserPatchVersion) {
+                        self.hasSeenUpdateNotice(false);
+                        self.UserPatchVersion = ko.observable("2.4");
+                    }
+                    else if (vm.UserPatchVersion != self.CurrentPatchVersion) {
+                        self.hasSeenUpdateNotice(false);
+                    }
+                    else {
+                        self.hasSeenUpdateNotice(true);
+                    }
                     if (vm.Jewelery) {
                         if (!self.Jewelry) {
                             self.Jewelry = ko.observableArray();
@@ -359,10 +378,12 @@ var Kanai;
             Site.prototype.UpdateForNewPatch = function () {
                 this.hasSeenUpdateNotice(true);
                 this.ConvertSeasonalToNon();
+                this.UserPatchVersion(this.CurrentPatchVersion);
                 this.saveToLocalStorage();
             };
             Site.prototype.DontUpdateForNewPatch = function () {
                 this.hasSeenUpdateNotice(true);
+                this.UserPatchVersion(this.CurrentPatchVersion);
                 this.saveToLocalStorage();
             };
             Site.prototype.Translate = function () {
@@ -518,7 +539,7 @@ var Kanai;
                 lang.getJewelry(target);
             };
             return Site;
-        })();
+        }());
         VM.Site = Site;
     })(VM = Kanai.VM || (Kanai.VM = {}));
 })(Kanai || (Kanai = {}));

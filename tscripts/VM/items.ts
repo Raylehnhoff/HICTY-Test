@@ -29,7 +29,7 @@ module Kanai {
             ArmorSeasonalCubedCount: KnockoutComputed<number>;
             WeaponSeasonalCubedCount: KnockoutComputed<number>;
             JewelrySeasonalCubedCount: KnockoutComputed<number>;
-            
+
             //Non-Seasonal Settings
             hideCubedNonSeason: KnockoutObservable<boolean>;
             nonSeasonalProgressBar: KnockoutObservable<boolean>;
@@ -64,8 +64,12 @@ module Kanai {
             showLanguageAlert: KnockoutObservable<boolean>;
             selectedLanguage: KnockoutObservable<string>;
             hasSeenUpdateNotice: KnockoutObservable<boolean>;
+
+            UserPatchVersion: KnockoutObservable<string>;
+            CurrentPatchVersion: string;
             constructor() {
                 var self = this;
+                this.CurrentPatchVersion = "2.4.1";
                 this.Weapons = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Jewelry = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Armor = ko.observableArray<KnockoutObservable<Equipment>>();
@@ -82,6 +86,7 @@ module Kanai {
                 this.Export = ko.observable<string>();
                 this.Import = ko.observable<string>();
                 this.Search = ko.observable<string>('').extend({ notify: 'always', rateLimit: 200 });
+                this.UserPatchVersion = ko.observable<string>('');
                 this.FilteredArray = ko.observableArray<KnockoutObservable<Equipment>>([]);
                 this.Search.subscribe((searchText) => {
                     if (searchText && searchText.length >= 2) {
@@ -108,9 +113,12 @@ module Kanai {
                 });
                 this.hasSeenLanguageAlert = ko.observable<boolean>(false);
                 this.hasSeenUpdateNotice = ko.observable<boolean>(false);
-
+                this.hasSeenUpdateNotice.subscribe((newVal) => {
+                    if (newVal === true) {
+                        self.UserPatchVersion(self.CurrentPatchVersion);
+                    }
+                });
                 this.showLanguageAlert = ko.computed(() => {
-
                     switch (lang.culture()) {
                         case "de-DE":
                         case "de":
@@ -121,7 +129,6 @@ module Kanai {
                         case "default":
                         default:
                             return false;
-
                     }
                 });
             }
@@ -146,7 +153,6 @@ module Kanai {
             }
 
             convertGermanItemsToEnglish() {
-
             }
 
             init() {
@@ -213,7 +219,21 @@ module Kanai {
                             self.saveToLocalStorage();
                         });
                     });
-                } else {
+                    self.UserPatchVersion = ko.observable(self.CurrentPatchVersion);
+                }
+                else {
+                    //This means they have a version of item data that pre-dates 2.4.1
+                    if (!vm.UserPatchVersion) {
+                        self.hasSeenUpdateNotice(false);
+                        self.UserPatchVersion = ko.observable("2.4");
+                    }
+                    else if (vm.UserPatchVersion != self.CurrentPatchVersion) {
+                        self.hasSeenUpdateNotice(false);
+                    }
+                    else {
+                        self.hasSeenUpdateNotice(true);
+                    }
+
                     if (vm.Jewelery) {
                         if (!self.Jewelry) {
                             self.Jewelry = ko.observableArray<KnockoutObservable<Equipment>>();
@@ -288,7 +308,6 @@ module Kanai {
                     });
                     this.saveToLocalStorage();
                 }
-
 
                 this.ArmorSeasonalCubedCount = ko.computed(() => {
                     if (self.Armor().length > 0) {
@@ -412,7 +431,6 @@ module Kanai {
                         thisItem.isCubedNonSeason(true);
                         thisItem.isCubedSeason(false);
                     }
-
                 }
                 for (var item in this.Jewelry()) {
                     var thisItem = this.Jewelry()[item];
@@ -433,11 +451,13 @@ module Kanai {
             UpdateForNewPatch() {
                 this.hasSeenUpdateNotice(true);
                 this.ConvertSeasonalToNon();
+                this.UserPatchVersion(this.CurrentPatchVersion);
                 this.saveToLocalStorage();
             }
 
             DontUpdateForNewPatch() {
                 this.hasSeenUpdateNotice(true);
+                this.UserPatchVersion(this.CurrentPatchVersion);
                 this.saveToLocalStorage();
             }
 
@@ -446,7 +466,6 @@ module Kanai {
                 this.selectedLanguage(lang.culture());
                 this.saveToLocalStorage();
                 this.init();
-
             }
 
             DontTranslate() {
@@ -523,7 +542,6 @@ module Kanai {
 
                 for (var i = 0; i < masterList.length; i++) {
                     if (masterList[i]) {
-
                         var searchName,
                             item;
                         if (typeof (masterList[i]) != 'object') {
@@ -576,10 +594,9 @@ module Kanai {
                 this.loadJewelry(this.AllJewelry);
                 this.loadArmor(this.AllArmor);
 
-
                 self._checkConsistencyAndSort(self.Armor, self.AllArmor());
                 self._checkConsistencyAndSort(self.Weapons, self.AllWeapons());
-                
+
                 //This item accidently made it to the US item list
                 if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
                     item = ko.utils.arrayFirst(self.Armor(), function (item: any) {
@@ -592,7 +609,6 @@ module Kanai {
 
                 self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry());
                 self.saveToLocalStorage();
-
             }
 
             loadFromLocalStorage(vm: Kanai.VM.Site) {
