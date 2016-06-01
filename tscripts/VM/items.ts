@@ -92,6 +92,7 @@ module Kanai {
                     if (searchText && searchText.length >= 2) {
                         //we need to search the array
                         self.FilteredArray([]);
+                        debugger;
                         self.searchArray(self.Armor, searchText, self.FilteredArray);
                         self.searchArray(self.Weapons, searchText, self.FilteredArray);
                         self.searchArray(self.Jewelry, searchText, self.FilteredArray);
@@ -135,8 +136,14 @@ module Kanai {
 
             searchArray(array: KnockoutObservableArray<KnockoutObservable<Equipment>>, searchText: string, response: KnockoutObservableArray<KnockoutObservable<Equipment>>): boolean {
                 var res = ko.utils.arrayFilter(array(), (item: any) => {
-                    var lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
-                    var lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
+                    var lowerItemName,
+                        lowerAffix;
+                    if (ko.isObservable(item)) {
+                        item = item();
+                    }
+                    lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
+                    lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
+
                     return (lowerItemName.indexOf(searchText) !== -1) || (lowerAffix.indexOf(searchText) !== -1);
                 });
                 ko.utils.arrayPushAll(response(), res);
@@ -182,7 +189,6 @@ module Kanai {
                     this.Jewelry.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
-                    localStorage.setItem(self.localStorageString, ko.mapping.toJSON(this));
 
                     $.each(self.Armor(), function (i, elem: KnockoutObservable<Equipment>) {
                         elem().isCubedSeason.subscribe((newValue) => {
@@ -220,6 +226,8 @@ module Kanai {
                         });
                     });
                     self.UserPatchVersion = ko.observable(self.CurrentPatchVersion);
+                    self.hasSeenUpdateNotice(true);
+                    localStorage.setItem(self.localStorageString, ko.mapping.toJSON(this));
                 }
                 else {
                     //This means they have a version of item data that pre-dates 2.4.1
