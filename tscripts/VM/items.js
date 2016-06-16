@@ -46,7 +46,6 @@ var Kanai;
                     if (searchText && searchText.length >= 2) {
                         //we need to search the array
                         self.FilteredArray([]);
-                        debugger;
                         self.searchArray(self.Armor, searchText, self.FilteredArray);
                         self.searchArray(self.Weapons, searchText, self.FilteredArray);
                         self.searchArray(self.Jewelry, searchText, self.FilteredArray);
@@ -469,6 +468,7 @@ var Kanai;
                 for (var i = 0; i < masterList.length; i++) {
                     if (masterList[i]) {
                         var searchName, item;
+                        debugger;
                         if (typeof (masterList[i]) != 'object') {
                             searchName = masterList[i]().itemName();
                             item = masterList[i]();
@@ -505,8 +505,8 @@ var Kanai;
                         self.Jewelry(importData.Jewelry());
                         self.Armor(importData.Armor());
                         self.Weapons(importData.Weapons());
+                        self.hasSeenUpdateNotice(true);
                         self.checkConsistency();
-                        self.hasSeenUpdateNotice(false);
                         self.saveToLocalStorage();
                     }
                 }
@@ -536,12 +536,15 @@ var Kanai;
                 this.Jewelry = vm.Jewelry;
             };
             Site.prototype.loadArmor = function (target) {
+                target([]);
                 lang.getArmor(target);
             };
             Site.prototype.loadWeapons = function (target) {
+                target([]);
                 lang.getWeapons(target);
             };
             Site.prototype.loadJewelry = function (target) {
+                target([]);
                 lang.getJewelry(target);
             };
             return Site;

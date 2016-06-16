@@ -92,7 +92,6 @@ module Kanai {
                     if (searchText && searchText.length >= 2) {
                         //we need to search the array
                         self.FilteredArray([]);
-                        debugger;
                         self.searchArray(self.Armor, searchText, self.FilteredArray);
                         self.searchArray(self.Weapons, searchText, self.FilteredArray);
                         self.searchArray(self.Jewelry, searchText, self.FilteredArray);
@@ -552,6 +551,7 @@ module Kanai {
                     if (masterList[i]) {
                         var searchName,
                             item;
+                        debugger;
                         if (typeof (masterList[i]) != 'object') {
                             searchName = masterList[i]().itemName();
                             item = masterList[i]();
@@ -589,8 +589,8 @@ module Kanai {
                         self.Jewelry(importData.Jewelry());
                         self.Armor(importData.Armor());
                         self.Weapons(importData.Weapons());
+                        self.hasSeenUpdateNotice(true);
                         self.checkConsistency();
-                        self.hasSeenUpdateNotice(false);
                         self.saveToLocalStorage();
                     }
                 }
@@ -626,14 +626,17 @@ module Kanai {
             }
 
             loadArmor(target) {
+                target([]);
                 lang.getArmor(target);
             }
 
             loadWeapons(target) {
+                target([]);
                 lang.getWeapons(target);
             }
 
             loadJewelry(target) {
+                target([]);
                 lang.getJewelry(target);
             }
         }
